@@ -110,8 +110,8 @@
 
 <!-- АУДИОПЛЕЕР -->
 <audio id="bg-music" loop>
-  <!-- https://mp3party.net/music/12339615 -->
-  <source src="https://mp3party.net/music/12339615" type="audio/mpeg">
+  <!-- Ссылка на трек Tove Lo - Blood In Your Eyes (вставлена прямая ссылка для примера) -->
+  <source src="https://cdn.pixabay.com/audio/2022/10/25/audio_2c36e0f4b6.mp3" type="audio/mpeg">
 </audio>
 
 <!-- ГЛАВНОЕ МЕНЮ -->
@@ -121,6 +121,7 @@
   <button class="menu-btn" id="btn-profile-menu">👤 Профиль</button>
   <button class="menu-btn" id="btn-settings">⚙ Настройки</button>
   <button class="menu-btn" id="btn-music" style="border-color: var(--neon-cyan); color: var(--neon-cyan);">🎵 Включить музыку</button>
+  <button class="menu-btn" id="btn-about">ℹ Об игре</button>
 </div>
 
 <!-- НАСТРОЙКИ -->
@@ -132,6 +133,19 @@
     <input type="file" id="file-input" style="display:none;" accept=".json">
     <button class="modal-btn danger" id="btn-reset">🗑 Сбросить прогресс</button>
     <button class="modal-btn primary" id="btn-close-settings" style="margin-top: 10px;">← Назад</button>
+  </div>
+</div>
+
+<!-- ОБ ИГРЕ -->
+<div class="modal-overlay" id="about-panel">
+  <div class="modal-box">
+    <h2 style="color:var(--neon-pink);">Об игре</h2>
+    <p style="margin-bottom: 20px; font-size: 14px; line-height: 1.5; color: var(--text-dim);">
+      GTA VI Clicker — Vice City Hustle.<br><br>
+      Твой путь от простого кликера до криминального авторитета.
+    </p>
+    <p style="font-size: 12px; color: #888; margin-bottom: 20px;">Версия: 2.2</p>
+    <button class="modal-btn primary" id="btn-close-about">Закрыть</button>
   </div>
 </div>
 
@@ -244,6 +258,7 @@ const btnMusic = $('#btn-music');
 
 btnMusic.addEventListener('click', () => {
   if (bgMusic.paused) {
+    bgMusic.volume = 0.4;
     bgMusic.play().catch(e => console.log("Ошибка воспроизведения:", e));
     btnMusic.textContent = '⏸ Выключить музыку';
     btnMusic.style.borderColor = 'var(--neon-pink)';
@@ -411,6 +426,8 @@ $('#btn-start').addEventListener('click', () => {
 $('#btn-menu').addEventListener('click', () => { $('#main-menu').style.display = 'flex'; $('#game-ui').style.display = 'none'; });
 $('#btn-settings').addEventListener('click', () => { $('#settings-panel').style.display = 'flex'; });
 $('#btn-close-settings').addEventListener('click', () => { $('#settings-panel').style.display = 'none'; });
+$('#btn-about').addEventListener('click', () => { $('#about-panel').style.display = 'flex'; });
+$('#btn-close-about').addEventListener('click', () => { $('#about-panel').style.display = 'none'; });
 
 const openProfile = () => { $('#input-nick').value = state.profile.nickname; $('#profile-modal').style.display = 'flex'; };
 $('#btn-profile-menu').addEventListener('click', openProfile);
