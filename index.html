@@ -36,6 +36,7 @@
   .modal-btn { width: 100%; padding: 14px; margin-bottom: 10px; font-size: 14px; font-weight: 800; text-transform: uppercase; border-radius: 10px; border: 2px solid transparent; cursor: pointer; }
   .modal-btn.primary { background: linear-gradient(135deg, var(--neon-pink), var(--neon-purple)); color: white; }
   .modal-btn.secondary { background: rgba(255,255,255,0.1); color: white; border-color: rgba(255,255,255,0.2); }
+  .modal-btn.danger { background: transparent; color: #ff4444; border-color: #ff4444; }
   .modal-input { width: 100%; padding: 14px; border-radius: 10px; border: 1px solid rgba(255,255,255,0.2); background: #0a0416; color: white; margin-bottom: 15px; font-family: var(--font); font-size: 16px; }
   .modal-buttons-row { display: flex; gap: 10px; }
 
@@ -80,41 +81,18 @@
   .ach.unlocked{background:rgba(255,225,77,0.15); border:1px solid var(--neon-yellow);}
 
   /* ================= ТУТОРИАЛ ================= */
-  #tutorial-overlay {
-    position: fixed; inset: 0; z-index: 3000; display: none; pointer-events: none;
-  }
-  .tutorial-highlight {
-    position: absolute; border-radius: 12px; box-shadow: 0 0 0 9999px rgba(0,0,0,0.8);
-    z-index: 3001; pointer-events: none; transition: all 0.3s ease; border: 2px solid var(--neon-cyan);
-  }
-  
-  #tutorial-dialog {
-    position: fixed; bottom: 20px; left: 50%; transform: translateX(-50%);
-    width: 90%; max-width: 500px; background: #120724; border: 2px solid var(--neon-pink);
-    border-radius: 15px; padding: 15px; z-index: 3002; pointer-events: auto;
-    box-shadow: 0 0 30px rgba(255,46,151,0.4); display: flex; flex-direction: column; gap: 10px;
-    transition: opacity 0.3s;
-  }
+  #tutorial-overlay { position: fixed; inset: 0; z-index: 3000; display: none; pointer-events: none; }
+  .tutorial-highlight { position: absolute; border-radius: 12px; box-shadow: 0 0 0 9999px rgba(0,0,0,0.8); z-index: 3001; pointer-events: none; transition: all 0.3s ease; border: 2px solid var(--neon-cyan); }
+  #tutorial-dialog { position: fixed; bottom: 20px; left: 50%; transform: translateX(-50%); width: 90%; max-width: 500px; background: #120724; border: 2px solid var(--neon-pink); border-radius: 15px; padding: 15px; z-index: 3002; pointer-events: auto; box-shadow: 0 0 30px rgba(255,46,151,0.4); display: flex; flex-direction: column; gap: 10px; }
   .tutorial-chars { display: flex; gap: 15px; align-items: flex-start; }
-  
-  /* НОВЫЕ РЕАЛИСТИЧНЫЕ АВАТАРКИ (ЗАГЛУШКИ В ВИДЕ КАРТИНОК) */
-  .tut-avatar { 
-    width: 50px; height: 50px; border-radius: 50%; object-fit: cover; flex-shrink: 0;
-    border: 2px solid #fff; box-shadow: 0 0 10px rgba(255,255,255,0.2);
-  }
-  .tut-avatar.jason-img { border-color: var(--neon-cyan); box-shadow: 0 0 10px var(--neon-cyan); }
-  .tut-avatar.lucia-img { border-color: var(--neon-pink); box-shadow: 0 0 10px var(--neon-pink); }
-
+  .tut-avatar { width: 50px; height: 50px; border-radius: 50%; object-fit: cover; flex-shrink: 0; border: 2px solid #fff; }
+  .tut-avatar.jason-img { border-color: var(--neon-cyan); }
+  .tut-avatar.lucia-img { border-color: var(--neon-pink); }
   .tut-text-box { flex: 1; }
   .tut-name { font-weight: 900; font-size: 12px; margin-bottom: 4px; text-transform: uppercase; }
   .tut-text { font-size: 14px; line-height: 1.4; color: white; }
   .tut-btn { align-self: flex-end; padding: 8px 16px; background: var(--neon-pink); border: none; border-radius: 8px; font-weight: bold; font-size: 12px; color: white; cursor: pointer; pointer-events: auto;}
-
-  .tutorial-arrow {
-    position: absolute; z-index: 3001; font-size: 40px; color: var(--neon-yellow);
-    animation: bounceArrow 1s infinite; pointer-events: none;
-    filter: drop-shadow(0 0 10px var(--neon-yellow));
-  }
+  .tutorial-arrow { position: absolute; z-index: 3001; font-size: 40px; color: var(--neon-yellow); animation: bounceArrow 1s infinite; pointer-events: none; filter: drop-shadow(0 0 10px var(--neon-yellow)); }
   @keyframes bounceArrow { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-15px); } }
 
   @media (min-width: 900px) {
@@ -130,12 +108,19 @@
 <canvas id="bg-canvas"></canvas>
 <div id="bg-overlay"></div>
 
+<!-- АУДИОПЛЕЕР -->
+<audio id="bg-music" loop>
+  <!-- ВСТАВЬ СВОЮ ССЫЛКУ НА MP3 ВМЕСТО ТОЧЕК -->
+  <source src="" type="audio/mpeg">
+</audio>
+
 <!-- ГЛАВНОЕ МЕНЮ -->
 <div id="main-menu">
   <h1>GTA VI<br>Clicker</h1>
   <button class="menu-btn primary" id="btn-start">▶ Играть</button>
   <button class="menu-btn" id="btn-profile-menu">👤 Профиль</button>
   <button class="menu-btn" id="btn-settings">⚙ Настройки</button>
+  <button class="menu-btn" id="btn-music" style="border-color: var(--neon-cyan); color: var(--neon-cyan);">🎵 Включить музыку</button>
 </div>
 
 <!-- НАСТРОЙКИ -->
@@ -207,9 +192,8 @@
   <div class="tutorial-arrow" id="tut-arrow">👇</div>
   <div id="tutorial-dialog">
     <div class="tutorial-chars">
-      <!-- Реалистичные аватарки (используем стилизованные картинки) -->
-      <img src="https://i.pinimg.com/564x/6b/c7/b8/6bc7b8d9b5b5c6f6d6e6a6b5d6a6b6d6.jpg" class="tut-avatar jason-img" id="tut-avatar-jason" alt="Jason">
-      <img src="https://i.pinimg.com/564x/9a/a7/84/9aa784a8b5b5c6f6d6e6a6b5d6a6b6d6.jpg" class="tut-avatar lucia-img" id="tut-avatar-lucia" style="display:none;" alt="Lucia">
+      <img src="https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?w=100&h=100&fit=crop" class="tut-avatar jason-img" id="tut-avatar-jason" alt="Jason">
+      <img src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=100&h=100&fit=crop" class="tut-avatar lucia-img" id="tut-avatar-lucia" style="display:none;" alt="Lucia">
       
       <div class="tut-text-box">
         <div class="tut-name" id="tut-name">ДЖЕЙСОН</div>
@@ -225,7 +209,7 @@
 const $ = s => document.querySelector(s);
 const $$ = s => document.querySelectorAll(s);
 
-const SAVE_KEY = 'gta6_clicker_vice_v9';
+const SAVE_KEY = 'gta6_clicker_vice_v10';
 const DEFAULT_STATE = {
   cash: 0, totalCash: 0, respect: 0, prestigeCount: 0, clicks: 0, combo: 0, comboTimer: 0,
   upgrades: {}, businesses: {}, achievements: {}, soundOn: true, currentSkin: '🌴',
@@ -254,128 +238,22 @@ const ACHIEVEMENTS = [
   {id:'cash1k', name:'Первая штука', desc:'Заработать $1K', check:s=>s.totalCash>=1e3}
 ];
 
-/* =========================================================
-   ЛОГИКА ТУТОРИАЛА
-   ========================================================= */
-const TUTORIAL_STEPS = [
-  { 
-    speaker: 'jason', 
-    text: 'Здарова! Я Джейсон. Это Вайс-Сити, тут крутятся большие деньги.', 
-    target: null 
-  },
-  { 
-    speaker: 'lucia', 
-    text: 'А я Люси. Мы тут не просто так стоим. Видишь пальму? Жми на неё!', 
-    target: '#click-target',
-    arrow: '👇'
-  },
-  { 
-    speaker: 'jason', 
-    text: 'Каждый клик — это деньги. Старайся кликать быстро, чтобы рос множитель комбо!', 
-    target: '#combo-element',
-    arrow: '👇'
-  },
-  { 
-    speaker: 'lucia', 
-    text: 'Когда накопишь немного баксов, загляни в магазин. Там можно купить пушки для силы клика.', 
-    target: '#tabs-element',
-    arrow: '👇'
-  },
-  { 
-    speaker: 'jason', 
-    text: 'А если хочешь, чтобы деньги капали сами — покупай бизнесы. Киоски, бары...', 
-    target: null 
-  },
-  { 
-    speaker: 'lucia', 
-    text: 'И самое главное — вкладка "Скины". Скучную пальму можно заменить на машину!', 
-    target: null
-  },
-  { 
-    speaker: 'jason', 
-    text: 'Всё, база есть. Дальше сам.', 
-    target: '#btn-menu',
-    arrow: '👆'
-  }
-];
+/* ========================= МУЗЫКА ========================= */
+const bgMusic = $('#bg-music');
+const btnMusic = $('#btn-music');
 
-let tutIndex = 0;
-
-function startTutorial() {
-  tutIndex = 0;
-  $('#tutorial-overlay').style.display = 'block';
-  $$('.tab').forEach(t => t.classList.remove('active'));
-  $$('.tab-content').forEach(c => c.classList.remove('active'));
-  document.querySelector('.tab[data-tab="upgrades"]').classList.add('active');
-  $('#tab-upgrades').classList.add('active');
-  showTutorialStep();
-}
-
-function showTutorialStep() {
-  if (tutIndex >= TUTORIAL_STEPS.length) {
-    endTutorial();
-    return;
-  }
-
-  const step = TUTORIAL_STEPS[tutIndex];
-  const imgJason = $('#tut-avatar-jason');
-  const imgLucia = $('#tut-avatar-lucia');
-  const name = $('#tut-name');
-  const text = $('#tut-text');
-  const highlight = $('#tut-highlight');
-  const arrow = $('#tut-arrow');
-
-  text.textContent = step.text;
-  
-  // Переключение картинок и имен
-  if (step.speaker === 'lucia') {
-    imgJason.style.display = 'none';
-    imgLucia.style.display = 'block';
-    name.textContent = 'ЛЮСИ';
-    name.style.color = 'var(--neon-pink)';
+btnMusic.addEventListener('click', () => {
+  if (bgMusic.paused) {
+    bgMusic.play().catch(e => console.log("Ошибка воспроизведения:", e));
+    btnMusic.textContent = '⏸ Выключить музыку';
+    btnMusic.style.borderColor = 'var(--neon-pink)';
+    btnMusic.style.color = 'var(--neon-pink)';
   } else {
-    imgJason.style.display = 'block';
-    imgLucia.style.display = 'none';
-    name.textContent = 'ДЖЕЙСОН';
-    name.style.color = 'var(--neon-cyan)';
+    bgMusic.pause();
+    btnMusic.textContent = '🎵 Включить музыку';
+    btnMusic.style.borderColor = 'var(--neon-cyan)';
+    btnMusic.style.color = 'var(--neon-cyan)';
   }
-
-  // Подсветка элементов
-  if (step.target) {
-    const el = $(step.target);
-    if (el) {
-      const rect = el.getBoundingClientRect();
-      highlight.style.display = 'block';
-      highlight.style.left = (rect.left - 5) + 'px';
-      highlight.style.top = (rect.top - 5) + 'px';
-      highlight.style.width = (rect.width + 10) + 'px';
-      highlight.style.height = (rect.height + 10) + 'px';
-
-      arrow.style.display = 'block';
-      arrow.textContent = step.arrow || '👇';
-      arrow.style.left = (rect.left + rect.width / 2 - 20) + 'px';
-      arrow.style.top = (rect.top - 60) + 'px';
-    } else {
-      highlight.style.display = 'none';
-      arrow.style.display = 'none';
-    }
-  } else {
-    highlight.style.display = 'none';
-    arrow.style.display = 'none';
-  }
-
-  $('#tut-next-btn').textContent = (tutIndex === TUTORIAL_STEPS.length - 1) ? 'Завершить' : 'Далее';
-}
-
-function endTutorial() {
-  $('#tutorial-overlay').style.display = 'none';
-  state.tutorialDone = true;
-  saveState();
-}
-
-$('#tut-next-btn').addEventListener('click', () => {
-  tutIndex++;
-  showTutorialStep();
 });
 /* ========================================================= */
 
@@ -527,7 +405,6 @@ $$('.tab').forEach(tab => {
 $('#btn-start').addEventListener('click', () => { 
   $('#main-menu').style.display = 'none'; 
   $('#game-ui').style.display = 'flex'; 
-  // Запуск туториала только если он не пройден
   if(!state.tutorialDone) startTutorial();
 });
 
@@ -545,6 +422,79 @@ $('#save-profile').addEventListener('click', () => {
 });
 
 $('#btn-reset').addEventListener('click', () => { if(confirm('Удалить прогресс?')) { localStorage.removeItem(SAVE_KEY); location.reload(); } });
+
+// ТУТОРИАЛ
+let tutIndex = 0;
+const TUTORIAL_STEPS = [
+  { speaker: 'jason', text: 'Здарова! Я Джейсон. Это Вайс-Сити, тут крутятся большие деньги.', target: null },
+  { speaker: 'lucia', text: 'А я Люси. Видишь пальму? Жми на неё!', target: '#click-target', arrow: '👇' },
+  { speaker: 'jason', text: 'Каждый клик — это деньги. Старайся кликать быстро, чтобы рос множитель комбо!', target: '#combo-element', arrow: '👇' },
+  { speaker: 'lucia', text: 'Когда накопишь немного баксов, загляни в магазин. Купи пушки.', target: '#tabs-element', arrow: '👇' },
+  { speaker: 'jason', text: 'А если хочешь, чтобы деньги капали сами — покупай бизнесы.', target: null },
+  { speaker: 'lucia', text: 'И самое главное — вкладка "Скины". Пальму можно заменить на машину!', target: null },
+  { speaker: 'jason', text: 'Всё, база есть. Дальше сам.', target: '#btn-menu', arrow: '👆' }
+];
+
+function startTutorial() {
+  tutIndex = 0;
+  $('#tutorial-overlay').style.display = 'block';
+  $$('.tab').forEach(t => t.classList.remove('active'));
+  $$('.tab-content').forEach(c => c.classList.remove('active'));
+  document.querySelector('.tab[data-tab="upgrades"]').classList.add('active');
+  $('#tab-upgrades').classList.add('active');
+  showTutorialStep();
+}
+
+function showTutorialStep() {
+  if (tutIndex >= TUTORIAL_STEPS.length) {
+    $('#tutorial-overlay').style.display = 'none';
+    state.tutorialDone = true;
+    saveState();
+    return;
+  }
+
+  const step = TUTORIAL_STEPS[tutIndex];
+  const imgJason = $('#tut-avatar-jason');
+  const imgLucia = $('#tut-avatar-lucia');
+  const name = $('#tut-name');
+  const text = $('#tut-text');
+  const highlight = $('#tut-highlight');
+  const arrow = $('#tut-arrow');
+
+  text.textContent = step.text;
+  
+  if (step.speaker === 'lucia') {
+    imgJason.style.display = 'none'; imgLucia.style.display = 'block';
+    name.textContent = 'ЛЮСИ'; name.style.color = 'var(--neon-pink)';
+  } else {
+    imgJason.style.display = 'block'; imgLucia.style.display = 'none';
+    name.textContent = 'ДЖЕЙСОН'; name.style.color = 'var(--neon-cyan)';
+  }
+
+  if (step.target) {
+    const el = $(step.target);
+    if (el) {
+      const rect = el.getBoundingClientRect();
+      highlight.style.display = 'block';
+      highlight.style.left = (rect.left - 5) + 'px';
+      highlight.style.top = (rect.top - 5) + 'px';
+      highlight.style.width = (rect.width + 10) + 'px';
+      highlight.style.height = (rect.height + 10) + 'px';
+
+      arrow.style.display = 'block';
+      arrow.textContent = step.arrow || '👇';
+      arrow.style.left = (rect.left + rect.width / 2 - 20) + 'px';
+      arrow.style.top = (rect.top - 60) + 'px';
+    }
+  } else {
+    highlight.style.display = 'none';
+    arrow.style.display = 'none';
+  }
+
+  $('#tut-next-btn').textContent = (tutIndex === TUTORIAL_STEPS.length - 1) ? 'Завершить' : 'Далее';
+}
+
+$('#tut-next-btn').addEventListener('click', () => { tutIndex++; showTutorialStep(); });
 
 // Инициализация
 elClickTarget.textContent = state.currentSkin || '🌴';
