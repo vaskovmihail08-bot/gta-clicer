@@ -24,31 +24,34 @@
                 radial-gradient(ellipse at 50% 110%, rgba(168,85,247,0.20), transparent 60%),
                 linear-gradient(180deg, rgba(10,4,22,0.15) 0%, rgba(10,4,22,0.55) 70%, rgba(10,4,22,0.92) 100%);}
 
-  /* МЕНЮ И МОДАЛКИ */
-  #main-menu { position: fixed; inset: 0; z-index: 2000; background: var(--bg-dark); display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 15px; padding: 20px; }
+  /* ГЛАВНОЕ МЕНЮ */
+  #main-menu { position: fixed; inset: 0; z-index: 2000; background: var(--bg-dark); display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 15px; padding: 20px; overflow-y: auto; }
   #main-menu h1 { font-size: clamp(32px, 8vw, 64px); font-weight: 900; letter-spacing: 4px; text-transform: uppercase; text-align: center; line-height: 1.1; background: linear-gradient(90deg,var(--neon-pink),var(--neon-yellow),var(--neon-cyan)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; filter: drop-shadow(0 0 20px rgba(255,46,151,0.5)); margin-bottom: 20px; }
+  
   .menu-btn { width: 100%; max-width: 300px; padding: 16px; font-size: 18px; font-weight: 800; text-transform: uppercase; letter-spacing: 2px; border-radius: 12px; background: rgba(255,255,255,0.05); border: 2px solid rgba(255,255,255,0.1); color: white; cursor: pointer; transition: all 0.2s; text-align: center; }
   .menu-btn.primary { background: linear-gradient(135deg, var(--neon-pink), var(--neon-purple)); border: none; box-shadow: 0 0 20px rgba(255,46,151,0.4); }
   .menu-btn:hover { transform: scale(1.02); }
 
-  #settings-panel, #about-panel { position: fixed; inset: 0; z-index: 2001; background: rgba(0,0,0,0.95); display: none; flex-direction: column; align-items: center; justify-content: center; gap: 15px; padding: 20px; overflow-y: auto; }
-  #settings-panel .menu-btn, #about-panel .menu-btn { font-size: 14px; padding: 12px; }
-
-  #profile-modal { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.9); z-index: 2002; align-items: center; justify-content: center; }
-  .modal-content { background: #120724; padding: 20px; border-radius: 15px; border: 2px solid var(--neon-pink); width: 90%; max-width: 350px; }
-  .modal-content h2 { color: var(--neon-cyan); margin-bottom: 15px; text-transform: uppercase; font-size: 18px; }
-  .modal-content input { width: 100%; padding: 12px; border-radius: 8px; border: 1px solid #555; background: #0a0416; color: white; margin-bottom: 15px; }
-  .modal-buttons { display: flex; gap: 10px; }
+  /* МОДАЛЬНЫЕ ОКНА (Настройки, Об игре, Профиль) */
+  .modal-overlay { position: fixed; inset: 0; z-index: 2001; background: rgba(0,0,0,0.95); display: none; align-items: center; justify-content: center; padding: 20px; }
+  
+  .modal-box { background: #120724; padding: 24px; border-radius: 20px; border: 2px solid var(--neon-pink); width: 100%; max-width: 380px; box-shadow: 0 0 50px rgba(255,46,151,0.4); text-align: center; }
+  .modal-box h2 { color: var(--neon-cyan); margin-bottom: 20px; text-transform: uppercase; font-size: 22px; letter-spacing: 2px;}
+  
+  .modal-btn { width: 100%; padding: 14px; margin-bottom: 10px; font-size: 14px; font-weight: 800; text-transform: uppercase; border-radius: 10px; border: 2px solid transparent; cursor: pointer; transition: all 0.2s; }
+  .modal-btn.primary { background: linear-gradient(135deg, var(--neon-pink), var(--neon-purple)); color: white; }
+  .modal-btn.secondary { background: rgba(255,255,255,0.1); color: white; border-color: rgba(255,255,255,0.2); }
+  .modal-btn.danger { background: transparent; color: #ff4444; border-color: #ff4444; }
+  
+  .modal-input { width: 100%; padding: 14px; border-radius: 10px; border: 1px solid rgba(255,255,255,0.2); background: #0a0416; color: white; margin-bottom: 15px; font-family: var(--font); font-size: 16px; }
+  .modal-buttons-row { display: flex; gap: 10px; }
 
   /* ИГРА */
   #game-ui { position: relative; z-index: 2; height: 100%; display: none; flex-direction: column; padding: 10px; gap: 10px; overflow: hidden; }
 
-  header{display:flex;align-items:center;justify-content:space-between;
-    gap:10px;flex-wrap:wrap;background:var(--bg-panel);border:1px solid rgba(255,46,151,0.5);
-    border-radius:var(--radius);padding:10px 15px; flex-shrink: 0;}
+  header{display:flex;align-items:center;justify-content:space-between; gap:10px;flex-wrap:wrap;background:var(--bg-panel);border:1px solid rgba(255,46,151,0.5); border-radius:var(--radius);padding:10px 15px; flex-shrink: 0;}
   .header-stats{display:flex;gap:6px;flex-wrap:wrap;align-items:center; justify-content: flex-end; flex: 1;}
-  .stat-pill{background:rgba(255,255,255,0.1); border-radius:999px;padding:6px 10px;
-    display:flex;align-items:center;gap:5px;font-weight:800;font-size:12px; white-space:nowrap;}
+  .stat-pill{background:rgba(255,255,255,0.1); border-radius:999px;padding:6px 10px; display:flex;align-items:center;gap:5px;font-weight:800;font-size:12px; white-space:nowrap; border: none;}
   .stat-pill.cash{color:var(--neon-green);}
   .stat-pill.heat{color:var(--neon-pink);}
   .stat-pill.respect{color:var(--neon-yellow);}
@@ -56,6 +59,7 @@
   main{position:relative;display:flex;flex-direction:column; align-items:center;justify-content:center; flex: 1; min-height: 0;}
   #click-stage{position:relative;width:100%;max-width:350px;aspect-ratio:1/1; display:flex;align-items:center;justify-content:center;cursor:pointer;touch-action:manipulation;}
   .neon-ring{position:absolute;inset:6%;border-radius:50%; border:3px solid rgba(255,46,151,0.4); box-shadow:0 0 40px rgba(255,46,151,0.4);}
+  
   #click-target{position:relative;width:60%;height:60%;border-radius:50%; display:flex;align-items:center;justify-content:center; font-size:clamp(50px,15vw,100px); background:radial-gradient(circle at 30% 30%,rgba(255,255,255,0.3),transparent), linear-gradient(145deg,rgba(255,46,151,0.5),rgba(0,240,255,0.3)); border:2px solid rgba(255,255,255,0.4); box-shadow:0 0 50px rgba(255,46,151,0.5); transition:transform .1s;}
   #click-target.pressed{transform:scale(0.9);}
 
@@ -68,7 +72,7 @@
 
   /* МАГАЗИН */
   aside{flex: 0 0 45vh; display:flex;flex-direction:column; gap:10px; overflow:hidden; background:var(--bg-panel); border:1px solid rgba(255,255,255,0.1); border-radius:var(--radius); padding:12px;}
-  .tabs{display:flex; gap:5px; flex-shrink: 0; overflow-x: auto;}
+  .tabs{display:flex; gap:5px; flex-shrink: 0; overflow-x: auto; padding-bottom: 5px;}
   .tab{flex:1; padding:8px; border-radius:8px; background:rgba(255,255,255,0.06); border:none; color:var(--text-dim); font-size:11px; font-weight:900; cursor:pointer; white-space:nowrap;}
   .tab.active{background:var(--neon-pink); color:white;}
   
@@ -81,8 +85,9 @@
   .upg-title{display:flex; align-items:center; gap:8px; font-size:14px; font-weight:900; color:#fff;}
   .upg-desc{font-size:11px; color:var(--text-dim);}
   .upg-cost{font-size:13px; font-weight:900; color:var(--neon-green);}
-  .buy-btn { width: 100%; padding: 10px; border: none; border-radius: 8px; font-weight: 900; font-size: 13px; color: #0a0416; background: var(--neon-green); }
-  .buy-btn:disabled { background: #333; color: #777; }
+  
+  .buy-btn { width: 100%; padding: 10px; border: none; border-radius: 8px; font-weight: 900; font-size: 13px; color: #0a0416; background: var(--neon-green); cursor:pointer;}
+  .buy-btn:disabled { background: #333; color: #777; cursor: not-allowed;}
   .upg-level{position:absolute; top:10px; right:10px; font-size:11px; color:var(--neon-cyan);}
 
   /* СКИНЫ */
@@ -121,34 +126,39 @@
 </div>
 
 <!-- НАСТРОЙКИ -->
-<div id="settings-panel">
-  <h2 style="color:var(--neon-cyan); margin-bottom:10px;">Настройки</h2>
-  <button class="menu-btn" id="btn-toggle-sound">🔊 Звук: ВКЛ</button>
-  <button class="menu-btn" id="btn-save-game" style="border-color: var(--neon-cyan); color: var(--neon-cyan);">💾 Скачать сохранение</button>
-  <button class="menu-btn" id="btn-load-game" style="border-color: var(--neon-green); color: var(--neon-green);">📥 Загрузить сохранение</button>
-  <input type="file" id="file-input" style="display:none;" accept=".json">
-  <button class="menu-btn" id="btn-reset" style="border-color: #ff4444; color: #ff4444;">🗑 Сбросить прогресс</button>
-  <button class="menu-btn" id="btn-close-settings">← Назад</button>
+<div class="modal-overlay" id="settings-panel">
+  <div class="modal-box">
+    <h2>Настройки</h2>
+    <button class="modal-btn secondary" id="btn-toggle-sound">🔊 Звук: ВКЛ</button>
+    <button class="modal-btn secondary" id="btn-save-game" style="color: var(--neon-cyan); border-color: var(--neon-cyan);">💾 Скачать сохранение</button>
+    <button class="modal-btn secondary" id="btn-load-game" style="color: var(--neon-green); border-color: var(--neon-green);">📥 Загрузить сохранение</button>
+    <input type="file" id="file-input" style="display:none;" accept=".json">
+    <button class="modal-btn danger" id="btn-reset">🗑 Сбросить прогресс</button>
+    <button class="modal-btn primary" id="btn-close-settings" style="margin-top: 10px;">← Назад</button>
+  </div>
 </div>
 
 <!-- ОБ ИГРЕ -->
-<div id="about-panel">
-  <h2 style="color:var(--neon-pink); margin-bottom:15px; text-align:center;">GTA VI Clicker</h2>
-  <p style="text-align:center; margin-bottom:20px; font-size:14px; line-height:1.5; color:var(--text-dim);">
-    Твой личный неоновый бизнес в Вайс-Сити.<br><br>
-    Кликай, покупай апгрейды,<br>собирай ачивки и грабь город!
-  </p>
-  <button class="menu-btn" id="btn-close-about">← Назад</button>
+<div class="modal-overlay" id="about-panel">
+  <div class="modal-box">
+    <h2 style="color:var(--neon-pink);">Об игре</h2>
+    <p style="margin-bottom: 20px; font-size: 14px; line-height: 1.5; color: var(--text-dim);">
+      GTA VI Clicker — Vice City Hustle.<br><br>
+      Твой путь от простого кликера до криминального авторитета.
+    </p>
+    <p style="font-size: 12px; color: #888; margin-bottom: 20px;">Версия: 2.1</p>
+    <button class="modal-btn primary" id="btn-close-about">Закрыть</button>
+  </div>
 </div>
 
 <!-- ПРОФИЛЬ -->
-<div id="profile-modal">
-  <div class="modal-content">
+<div class="modal-overlay" id="profile-modal">
+  <div class="modal-box">
     <h2>Профиль</h2>
-    <input type="text" id="input-nick" placeholder="Твой ник...">
-    <div class="modal-buttons">
-      <button class="menu-btn primary" id="save-profile" style="padding:10px; font-size:14px;">Сохранить</button>
-      <button class="menu-btn" id="close-modal" style="padding:10px; font-size:14px; background:#444;">Закрыть</button>
+    <input type="text" id="input-nick" class="modal-input" placeholder="Введи ник...">
+    <div class="modal-buttons-row">
+      <button class="modal-btn primary" id="save-profile" style="flex:1; margin:0;">Сохранить</button>
+      <button class="modal-btn secondary" id="close-modal" style="flex:1; margin:0;">Закрыть</button>
     </div>
   </div>
 </div>
@@ -158,6 +168,7 @@
   <header>
     <button class="stat-pill" id="btn-menu" style="background:#555; cursor:pointer;">☰ Меню</button>
     <div class="header-stats">
+      <button class="stat-pill" id="profile-btn-game" style="background:var(--neon-purple); color:white; cursor:pointer;">👤</button>
       <div class="stat-pill cash">💵 <span id="stat-cash">0</span></div>
       <div class="stat-pill heat">🔥 <span id="stat-heat">x1.0</span></div>
       <div class="stat-pill respect">⭐ <span id="stat-respect">0</span></div>
@@ -351,7 +362,6 @@ function checkAchievements() {
   ACHIEVEMENTS.forEach(a => {
     if(!state.achievements[a.id] && a.check(state)) {
       state.achievements[a.id] = true; changed = true;
-      // Здесь можно добавить уведомление
     }
   });
   if(changed) renderStore();
@@ -445,10 +455,10 @@ $$('.tab').forEach(tab => {
 // Меню и панели
 $('#btn-start').addEventListener('click', () => { $('#main-menu').style.display = 'none'; $('#game-ui').style.display = 'flex'; });
 $('#btn-menu').addEventListener('click', () => { $('#main-menu').style.display = 'flex'; $('#game-ui').style.display = 'none'; });
-$('#btn-settings').addEventListener('click', () => { $('#settings-panel').style.display = 'flex'; $('#main-menu').style.display = 'none'; });
-$('#btn-close-settings').addEventListener('click', () => { $('#settings-panel').style.display = 'none'; $('#main-menu').style.display = 'flex'; });
-$('#btn-about').addEventListener('click', () => { $('#about-panel').style.display = 'flex'; $('#main-menu').style.display = 'none'; });
-$('#btn-close-about').addEventListener('click', () => { $('#about-panel').style.display = 'none'; $('#main-menu').style.display = 'flex'; });
+$('#btn-settings').addEventListener('click', () => { $('#settings-panel').style.display = 'flex'; });
+$('#btn-close-settings').addEventListener('click', () => { $('#settings-panel').style.display = 'none'; });
+$('#btn-about').addEventListener('click', () => { $('#about-panel').style.display = 'flex'; });
+$('#btn-close-about').addEventListener('click', () => { $('#about-panel').style.display = 'none'; });
 
 // Профиль
 const openProfile = () => { $('#input-nick').value = state.profile.nickname; $('#profile-modal').style.display = 'flex'; };
