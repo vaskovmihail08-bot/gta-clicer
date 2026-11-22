@@ -8,7 +8,7 @@
   :root{
     --neon-pink:#ff2e97; --neon-cyan:#00f0ff; --neon-purple:#a855f7;
     --neon-yellow:#ffe14d; --neon-green:#39ff88; --bg-dark:#0a0416;
-    --bg-panel:rgba(20,8,40,0.92); --glass:rgba(255,255,255,0.08);
+    --bg-panel:rgba(20,8,40,0.95); --glass:rgba(255,255,255,0.08);
     --text-main:#f4eaff; --text-dim:#b9a8d6; --radius:18px;
     --font:'Segoe UI','Trebuchet MS',system-ui,sans-serif;
   }
@@ -27,82 +27,95 @@
   /* ГЛАВНОЕ МЕНЮ */
   #main-menu { position: fixed; inset: 0; z-index: 2000; background: var(--bg-dark); display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 15px; padding: 20px; overflow-y: auto; }
   #main-menu h1 { font-size: clamp(32px, 8vw, 64px); font-weight: 900; letter-spacing: 4px; text-transform: uppercase; text-align: center; line-height: 1.1; background: linear-gradient(90deg,var(--neon-pink),var(--neon-yellow),var(--neon-cyan)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; filter: drop-shadow(0 0 20px rgba(255,46,151,0.5)); margin-bottom: 20px; }
-  
   .menu-btn { width: 100%; max-width: 300px; padding: 16px; font-size: 18px; font-weight: 800; text-transform: uppercase; letter-spacing: 2px; border-radius: 12px; background: rgba(255,255,255,0.05); border: 2px solid rgba(255,255,255,0.1); color: white; cursor: pointer; transition: all 0.2s; text-align: center; }
   .menu-btn.primary { background: linear-gradient(135deg, var(--neon-pink), var(--neon-purple)); border: none; box-shadow: 0 0 20px rgba(255,46,151,0.4); }
-  .menu-btn:hover { transform: scale(1.02); }
 
-  /* МОДАЛЬНЫЕ ОКНА (Настройки, Об игре, Профиль) */
-  .modal-overlay { position: fixed; inset: 0; z-index: 2001; background: rgba(0,0,0,0.95); display: none; align-items: center; justify-content: center; padding: 20px; }
-  
-  .modal-box { background: #120724; padding: 24px; border-radius: 20px; border: 2px solid var(--neon-pink); width: 100%; max-width: 380px; box-shadow: 0 0 50px rgba(255,46,151,0.4); text-align: center; }
-  .modal-box h2 { color: var(--neon-cyan); margin-bottom: 20px; text-transform: uppercase; font-size: 22px; letter-spacing: 2px;}
-  
-  .modal-btn { width: 100%; padding: 14px; margin-bottom: 10px; font-size: 14px; font-weight: 800; text-transform: uppercase; border-radius: 10px; border: 2px solid transparent; cursor: pointer; transition: all 0.2s; }
+  /* МОДАЛЬНЫЕ ОКНА */
+  .modal-overlay { position: fixed; inset: 0; z-index: 2001; background: rgba(0,0,0,0.95); display: none; align-items: center; justify-content: center; padding: 15px; }
+  .modal-box { background: #120724; padding: 20px; border-radius: 20px; border: 2px solid var(--neon-pink); width: 100%; max-width: 380px; box-shadow: 0 0 50px rgba(255,46,151,0.4); text-align: center; max-height: 90vh; overflow-y: auto; }
+  .modal-btn { width: 100%; padding: 14px; margin-bottom: 10px; font-size: 14px; font-weight: 800; text-transform: uppercase; border-radius: 10px; border: 2px solid transparent; cursor: pointer; }
   .modal-btn.primary { background: linear-gradient(135deg, var(--neon-pink), var(--neon-purple)); color: white; }
   .modal-btn.secondary { background: rgba(255,255,255,0.1); color: white; border-color: rgba(255,255,255,0.2); }
   .modal-btn.danger { background: transparent; color: #ff4444; border-color: #ff4444; }
-  
   .modal-input { width: 100%; padding: 14px; border-radius: 10px; border: 1px solid rgba(255,255,255,0.2); background: #0a0416; color: white; margin-bottom: 15px; font-family: var(--font); font-size: 16px; }
   .modal-buttons-row { display: flex; gap: 10px; }
 
   /* ИГРА */
   #game-ui { position: relative; z-index: 2; height: 100%; display: none; flex-direction: column; padding: 10px; gap: 10px; overflow: hidden; }
-
   header{display:flex;align-items:center;justify-content:space-between; gap:10px;flex-wrap:wrap;background:var(--bg-panel);border:1px solid rgba(255,46,151,0.5); border-radius:var(--radius);padding:10px 15px; flex-shrink: 0;}
   .header-stats{display:flex;gap:6px;flex-wrap:wrap;align-items:center; justify-content: flex-end; flex: 1;}
   .stat-pill{background:rgba(255,255,255,0.1); border-radius:999px;padding:6px 10px; display:flex;align-items:center;gap:5px;font-weight:800;font-size:12px; white-space:nowrap; border: none;}
-  .stat-pill.cash{color:var(--neon-green);}
-  .stat-pill.heat{color:var(--neon-pink);}
-  .stat-pill.respect{color:var(--neon-yellow);}
+  .stat-pill.cash{color:var(--neon-green);} .stat-pill.heat{color:var(--neon-pink);} .stat-pill.respect{color:var(--neon-yellow);}
 
   main{position:relative;display:flex;flex-direction:column; align-items:center;justify-content:center; flex: 1; min-height: 0;}
   #click-stage{position:relative;width:100%;max-width:350px;aspect-ratio:1/1; display:flex;align-items:center;justify-content:center;cursor:pointer;touch-action:manipulation;}
   .neon-ring{position:absolute;inset:6%;border-radius:50%; border:3px solid rgba(255,46,151,0.4); box-shadow:0 0 40px rgba(255,46,151,0.4);}
-  
   #click-target{position:relative;width:60%;height:60%;border-radius:50%; display:flex;align-items:center;justify-content:center; font-size:clamp(50px,15vw,100px); background:radial-gradient(circle at 30% 30%,rgba(255,255,255,0.3),transparent), linear-gradient(145deg,rgba(255,46,151,0.5),rgba(0,240,255,0.3)); border:2px solid rgba(255,255,255,0.4); box-shadow:0 0 50px rgba(255,46,151,0.5); transition:transform .1s;}
   #click-target.pressed{transform:scale(0.9);}
-
   .combo-wrap{width:100%;max-width:350px;margin-top:10px;}
   .combo-track{height:8px;border-radius:999px;background:rgba(255,255,255,0.1); overflow:hidden;}
   .combo-fill{height:100%;width:0%;background:linear-gradient(90deg,var(--neon-cyan),var(--neon-pink));}
-  
   .float-num{position:absolute;font-weight:900;font-size:20px; color:var(--neon-green); pointer-events:none;z-index:50; animation:floatUp .8s forwards;}
   @keyframes floatUp{0%{opacity:1;transform:translate(-50%,-50%) scale(1);} 100%{opacity:0;transform:translate(-50%,-150%) scale(1.5);}}
 
   /* МАГАЗИН */
-  aside{flex: 0 0 45vh; display:flex;flex-direction:column; gap:10px; overflow:hidden; background:var(--bg-panel); border:1px solid rgba(255,255,255,0.1); border-radius:var(--radius); padding:12px;}
+  aside{flex: 0 0 45vh; display:flex;flex-direction:column; gap:10px; overflow:hidden; background:var(--bg-panel); border:1px solid rgba(255,255,255,0.1); border-radius:var(--radius); padding:12px; position: relative;}
   .tabs{display:flex; gap:5px; flex-shrink: 0; overflow-x: auto; padding-bottom: 5px;}
   .tab{flex:1; padding:8px; border-radius:8px; background:rgba(255,255,255,0.06); border:none; color:var(--text-dim); font-size:11px; font-weight:900; cursor:pointer; white-space:nowrap;}
   .tab.active{background:var(--neon-pink); color:white;}
-  
   .tab-content{display:none; overflow-y:auto; flex:1; padding-right:5px; -webkit-overflow-scrolling: touch;}
   .tab-content.active{display:block;}
   .tab-content::-webkit-scrollbar{width:4px;}
   .tab-content::-webkit-scrollbar-thumb{background:var(--neon-pink); border-radius:2px;}
-
   .upg-card{background:rgba(255,255,255,0.05); border:1px solid rgba(255,255,255,0.1); border-radius:12px; padding:10px; margin-bottom:8px; display:flex; flex-direction: column; gap:6px; position:relative;}
   .upg-title{display:flex; align-items:center; gap:8px; font-size:14px; font-weight:900; color:#fff;}
   .upg-desc{font-size:11px; color:var(--text-dim);}
   .upg-cost{font-size:13px; font-weight:900; color:var(--neon-green);}
-  
   .buy-btn { width: 100%; padding: 10px; border: none; border-radius: 8px; font-weight: 900; font-size: 13px; color: #0a0416; background: var(--neon-green); cursor:pointer;}
   .buy-btn:disabled { background: #333; color: #777; cursor: not-allowed;}
   .upg-level{position:absolute; top:10px; right:10px; font-size:11px; color:var(--neon-cyan);}
-
-  /* СКИНЫ */
   .skin-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; }
   .skin-card { background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.1); border-radius: 10px; padding: 15px 5px; text-align: center; cursor: pointer; }
   .skin-card.active { border-color: var(--neon-yellow); box-shadow: 0 0 10px rgba(255,225,77,0.3); }
-  .skin-emoji { font-size: 30px; }
-
-  /* АЧИВКИ */
   .ach{display:flex;align-items:center;gap:10px;padding:10px;margin-bottom:8px; border-radius:10px;background:rgba(255,255,255,0.05);}
   .ach.unlocked{background:rgba(255,225,77,0.15); border:1px solid var(--neon-yellow);}
-  .ach .em{font-size:20px;}
-  .ach .txt b{font-size:12px;} .ach .txt span{font-size:10px; color:var(--text-dim);}
 
-  /* КОМПЬЮТЕРНАЯ ВЕРСИЯ */
+  /* ================= ТУТОРИАЛ ================= */
+  #tutorial-overlay {
+    position: fixed; inset: 0; z-index: 3000; display: none; pointer-events: none;
+    background: rgba(0,0,0,0.7); /* Затемнение фона */
+  }
+  /* Подсветка элемента (вырез в темном фоне) */
+  .tutorial-highlight {
+    position: absolute; border-radius: 12px; box-shadow: 0 0 0 9999px rgba(0,0,0,0.7);
+    z-index: 3001; pointer-events: none; transition: all 0.3s ease; border: 2px solid var(--neon-cyan);
+  }
+  
+  /* Окно с персонажами внизу */
+  #tutorial-dialog {
+    position: fixed; bottom: 20px; left: 50%; transform: translateX(-50%);
+    width: 90%; max-width: 500px; background: #120724; border: 2px solid var(--neon-pink);
+    border-radius: 15px; padding: 15px; z-index: 3002; pointer-events: auto;
+    box-shadow: 0 0 30px rgba(255,46,151,0.4); display: flex; flex-direction: column; gap: 10px;
+    transition: opacity 0.3s;
+  }
+  .tutorial-chars { display: flex; gap: 15px; align-items: flex-start; }
+  .tut-avatar { font-size: 40px; filter: drop-shadow(0 0 10px currentColor); }
+  .tut-jason { color: var(--neon-cyan); }
+  .tut-lucia { color: var(--neon-pink); }
+  .tut-text-box { flex: 1; }
+  .tut-name { font-weight: 900; font-size: 12px; margin-bottom: 4px; text-transform: uppercase; }
+  .tut-text { font-size: 14px; line-height: 1.4; color: white; }
+  .tut-btn { align-self: flex-end; padding: 8px 16px; background: var(--neon-pink); border: none; border-radius: 8px; font-weight: bold; font-size: 12px; color: white; cursor: pointer; pointer-events: auto;}
+
+  /* Стрелка-указатель */
+  .tutorial-arrow {
+    position: absolute; z-index: 3001; font-size: 40px; color: var(--neon-yellow);
+    animation: bounceArrow 1s infinite; pointer-events: none;
+    filter: drop-shadow(0 0 10px var(--neon-yellow));
+  }
+  @keyframes bounceArrow { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-15px); } }
+
   @media (min-width: 900px) {
     #game-ui { display: grid; grid-template-columns: 1fr 400px; grid-template-rows: auto 1fr; gap: 20px; padding: 20px; }
     header { grid-column: 1 / -1; }
@@ -121,33 +134,19 @@
   <h1>GTA VI<br>Clicker</h1>
   <button class="menu-btn primary" id="btn-start">▶ Играть</button>
   <button class="menu-btn" id="btn-profile-menu">👤 Профиль</button>
+  <button class="menu-btn" id="btn-tutorial-menu" style="border-color:var(--neon-cyan); color:var(--neon-cyan);">📖 Туториал</button>
   <button class="menu-btn" id="btn-settings">⚙ Настройки</button>
-  <button class="menu-btn" id="btn-about">ℹ Об игре</button>
 </div>
 
 <!-- НАСТРОЙКИ -->
 <div class="modal-overlay" id="settings-panel">
   <div class="modal-box">
     <h2>Настройки</h2>
-    <button class="modal-btn secondary" id="btn-toggle-sound">🔊 Звук: ВКЛ</button>
     <button class="modal-btn secondary" id="btn-save-game" style="color: var(--neon-cyan); border-color: var(--neon-cyan);">💾 Скачать сохранение</button>
     <button class="modal-btn secondary" id="btn-load-game" style="color: var(--neon-green); border-color: var(--neon-green);">📥 Загрузить сохранение</button>
     <input type="file" id="file-input" style="display:none;" accept=".json">
     <button class="modal-btn danger" id="btn-reset">🗑 Сбросить прогресс</button>
     <button class="modal-btn primary" id="btn-close-settings" style="margin-top: 10px;">← Назад</button>
-  </div>
-</div>
-
-<!-- ОБ ИГРЕ -->
-<div class="modal-overlay" id="about-panel">
-  <div class="modal-box">
-    <h2 style="color:var(--neon-pink);">Об игре</h2>
-    <p style="margin-bottom: 20px; font-size: 14px; line-height: 1.5; color: var(--text-dim);">
-      GTA VI Clicker — Vice City Hustle.<br><br>
-      Твой путь от простого кликера до криминального авторитета.
-    </p>
-    <p style="font-size: 12px; color: #888; margin-bottom: 20px;">Версия: 2.2</p>
-    <button class="modal-btn primary" id="btn-close-about">Закрыть</button>
   </div>
 </div>
 
@@ -168,7 +167,6 @@
   <header>
     <button class="stat-pill" id="btn-menu" style="background:#555; cursor:pointer;">☰ Меню</button>
     <div class="header-stats">
-      <button class="stat-pill" id="profile-btn-game" style="background:var(--neon-purple); color:white; cursor:pointer;">👤</button>
       <div class="stat-pill cash">💵 <span id="stat-cash">0</span></div>
       <div class="stat-pill heat">🔥 <span id="stat-heat">x1.0</span></div>
       <div class="stat-pill respect">⭐ <span id="stat-respect">0</span></div>
@@ -176,18 +174,19 @@
   </header>
 
   <main>
+    <!-- Элементы, к которым будет привлекаться внимание -->
     <div id="click-stage">
       <div class="neon-ring"></div>
       <div id="click-target">🌴</div>
     </div>
-    <div class="combo-wrap">
+    <div class="combo-wrap" id="combo-element">
       <div style="font-size:10px; display:flex; justify-content:space-between; margin-bottom:2px;"><span>Комбо</span><b id="combo-text">x1.0</b></div>
       <div class="combo-track"><div class="combo-fill" id="combo-fill"></div></div>
     </div>
   </main>
 
   <aside>
-    <div class="tabs">
+    <div class="tabs" id="tabs-element">
       <div class="tab active" data-tab="upgrades">⚔️ Апгрейды</div>
       <div class="tab" data-tab="business">🏢 Бизнес</div>
       <div class="tab" data-tab="skins">🎨 Скины</div>
@@ -199,8 +198,24 @@
     <div class="tab-content" id="tab-skins"></div>
     <div class="tab-content" id="tab-achievements"></div>
     
-    <button class="buy-btn" id="prestige-btn" style="margin-top:10px; background:var(--neon-yellow);" disabled>🏦 Ограбить город (<span id="prestige-gain">0</span>)</button>
+    <button class="buy-btn" id="prestige-btn" style="margin-top:10px; background:var(--neon-yellow);" disabled>🏦 Ограбить город</button>
   </aside>
+</div>
+
+<!-- ОВЕРЛЕЙ ТУТОРИАЛА -->
+<div id="tutorial-overlay">
+  <div class="tutorial-highlight" id="tut-highlight"></div>
+  <div class="tutorial-arrow" id="tut-arrow">👇</div>
+  <div id="tutorial-dialog">
+    <div class="tutorial-chars">
+      <div class="tut-avatar" id="tut-avatar">👨🏼‍🦱</div>
+      <div class="tut-text-box">
+        <div class="tut-name" id="tut-name">ДЖЕЙСОН</div>
+        <div class="tut-text" id="tut-text">Текст...</div>
+      </div>
+    </div>
+    <button class="tut-btn" id="tut-next-btn">Далее</button>
+  </div>
 </div>
 
 <script>
@@ -208,51 +223,163 @@
 const $ = s => document.querySelector(s);
 const $$ = s => document.querySelectorAll(s);
 
-const SAVE_KEY = 'gta6_clicker_vice_v6';
+const SAVE_KEY = 'gta6_clicker_vice_v8';
 const DEFAULT_STATE = {
   cash: 0, totalCash: 0, respect: 0, prestigeCount: 0, clicks: 0, combo: 0, comboTimer: 0,
-  upgrades: {}, businesses: {}, achievements: {}, soundOn: true,
-  currentSkin: '🌴',
+  upgrades: {}, businesses: {}, achievements: {}, soundOn: true, currentSkin: '🌴',
+  tutorialDone: false,
   profile: { nickname: 'Игрок_' + Math.floor(Math.random() * 999) }
 };
 
 let state = JSON.parse(localStorage.getItem(SAVE_KEY)) || JSON.parse(JSON.stringify(DEFAULT_STATE));
 
+// Данные магазинов
 const UPGRADES = [
   {id:'knuckles', name:'Кастет', icon:'👊', desc:'+1 к клику', baseCost:15, power:1, max:200},
   {id:'bat', name:'Бита', icon:'🏏', desc:'+3 к клику', baseCost:120, power:3, max:200},
-  {id:'pistol', name:'Пистолет', icon:'🔫', desc:'+12 к клику', baseCost:1100, power:12, max:200},
-  {id:'smg', name:'ПП', icon:'💥', desc:'+60 к клику', baseCost:12000, power:60, max:200},
-  {id:'rifle', name:'Автомат', icon:'🎯', desc:'+350 к клику', baseCost:150000, power:350, max:200},
-  {id:'rpg', name:'РПГ', icon:'🚀', desc:'+2.5K к клику', baseCost:2.2e6, power:2500, max:200},
-  {id:'tank', name:'Танк', icon:'🛡️', desc:'+150K к клику', baseCost:8e8, power:150000, max:200}
+  {id:'pistol', name:'Пистолет', icon:'🔫', desc:'+12 к клику', baseCost:1100, power:12, max:200}
 ];
-
 const BUSINESSES = [
   {id:'hotdog', name:'Хот-дог', icon:'🌭', desc:'+1 $/сек', baseCost:50, income:1, max:300},
-  {id:'bar', name:'Бар', icon:'🍹', desc:'+6 $/сек', baseCost:600, income:6, max:300},
-  {id:'club', name:'Клуб', icon:'🎉', desc:'+35 $/сек', baseCost:7500, income:35, max:300},
-  {id:'casino', name:'Казино', icon:'🎰', desc:'+1.5K $/сек', baseCost:1.2e6, income:1500, max:300},
-  {id:'airport', name:'Аэропорт', icon:'🛫', desc:'+90K $/сек', baseCost:3e8, income:90000, max:300}
+  {id:'bar', name:'Бар', icon:'🍹', desc:'+6 $/сек', baseCost:600, income:6, max:300}
 ];
-
 const SKINS = [
   { id: '🌴', name: 'Пальма', cost: 0 },
   { id: '🚗', name: 'Тачка', cost: 1000 },
-  { id: '🚁', name: 'Вертолет', cost: 50000 },
-  { id: '👑', name: 'Корона', cost: 500000 },
-  { id: '🗽', name: 'Статуя', cost: 5e6 },
-  { id: '💎', name: 'Бриллиант', cost: 1e8 }
+  { id: '🚁', name: 'Вертолет', cost: 50000 }
 ];
-
 const ACHIEVEMENTS = [
   {id:'click1', name:'Первый клик', desc:'Сделать 1 клик', check:s=>s.clicks>=1},
-  {id:'click100', name:'Разминка', desc:'100 кликов', check:s=>s.clicks>=100},
-  {id:'click1000', name:'Мозоль', desc:'1 000 кликов', check:s=>s.clicks>=1000},
-  {id:'cash1k', name:'Первая штука', desc:'Заработать $1K', check:s=>s.totalCash>=1e3},
-  {id:'cash1m', name:'Миллионер', desc:'Заработать $1M', check:s=>s.totalCash>=1e6},
-  {id:'prestige1', name:'Крёстный отец', desc:'1 ограбление', check:s=>s.prestigeCount>=1}
+  {id:'cash1k', name:'Первая штука', desc:'Заработать $1K', check:s=>s.totalCash>=1e3}
 ];
+
+/* =========================================================
+   ЛОГИКА ТУТОРИАЛА С УКАЗАТЕЛЯМИ (GTA 6)
+   ========================================================= */
+const TUTORIAL_STEPS = [
+  { 
+    speaker: 'jason', 
+    text: 'Здарова! Я Джейсон. Это Вайс-Сити, тут крутятся большие деньги.', 
+    target: null // Без стрелки
+  },
+  { 
+    speaker: 'lucia', 
+    text: 'А я Люси. Мы тут не просто так стоим. Видишь пальму? Жми на неё!', 
+    target: '#click-target',
+    arrow: '👇'
+  },
+  { 
+    speaker: 'jason', 
+    text: 'Каждый клик — это деньги. Старайся кликать быстро, чтобы рос множитель комбо!', 
+    target: '#combo-element',
+    arrow: '👇'
+  },
+  { 
+    speaker: 'lucia', 
+    text: 'Когда накопишь немного баксов, загляни в магазин. Там можно купить пушки для силы клика.', 
+    target: '#tabs-element',
+    arrow: '👇'
+  },
+  { 
+    speaker: 'jason', 
+    text: 'А если хочешь, чтобы деньги капали сами — покупай бизнесы. Киоски, бары...', 
+    target: null // Просто текст, т.к. табы уже показаны
+  },
+  { 
+    speaker: 'lucia', 
+    text: 'И самое главное — вкладка "Скины". Скучную пальму можно заменить на машину!', 
+    target: null
+  },
+  { 
+    speaker: 'jason', 
+    text: 'Всё, база есть. Дальше сам. Если забудешь — нажми "Меню" и запусти туториал заново.', 
+    target: '#btn-menu',
+    arrow: '👆'
+  }
+];
+
+let tutIndex = 0;
+
+function startTutorial() {
+  tutIndex = 0;
+  $('#tutorial-overlay').style.display = 'block';
+  // Принудительно переключаем вкладку на "Апгрейды", чтобы показать магазин
+  $$('.tab').forEach(t => t.classList.remove('active'));
+  $$('.tab-content').forEach(c => c.classList.remove('active'));
+  document.querySelector('.tab[data-tab="upgrades"]').classList.add('active');
+  $('#tab-upgrades').classList.add('active');
+  showTutorialStep();
+}
+
+function showTutorialStep() {
+  if (tutIndex >= TUTORIAL_STEPS.length) {
+    endTutorial();
+    return;
+  }
+
+  const step = TUTORIAL_STEPS[tutIndex];
+  const dialog = $('#tutorial-dialog');
+  const avatar = $('#tut-avatar');
+  const name = $('#tut-name');
+  const text = $('#tut-text');
+  const highlight = $('#tut-highlight');
+  const arrow = $('#tut-arrow');
+
+  // Настройка текста
+  text.textContent = step.text;
+  if (step.speaker === 'lucia') {
+    avatar.textContent = '👩🏽‍🦱';
+    avatar.className = 'tut-avatar tut-lucia';
+    name.textContent = 'ЛЮСИ';
+    name.style.color = 'var(--neon-pink)';
+  } else {
+    avatar.textContent = '👨🏼‍🦱';
+    avatar.className = 'tut-avatar tut-jason';
+    name.textContent = 'ДЖЕЙСОН';
+    name.style.color = 'var(--neon-cyan)';
+  }
+
+  // Настройка подсветки и стрелки
+  if (step.target) {
+    const el = $(step.target);
+    if (el) {
+      const rect = el.getBoundingClientRect();
+      highlight.style.display = 'block';
+      highlight.style.left = (rect.left - 5) + 'px';
+      highlight.style.top = (rect.top - 5) + 'px';
+      highlight.style.width = (rect.width + 10) + 'px';
+      highlight.style.height = (rect.height + 10) + 'px';
+
+      // Позиционируем стрелку
+      arrow.style.display = 'block';
+      arrow.textContent = step.arrow || '👇';
+      // Ставим стрелку чуть выше цели
+      arrow.style.left = (rect.left + rect.width / 2 - 20) + 'px';
+      arrow.style.top = (rect.top - 60) + 'px';
+    } else {
+      highlight.style.display = 'none';
+      arrow.style.display = 'none';
+    }
+  } else {
+    highlight.style.display = 'none';
+    arrow.style.display = 'none';
+  }
+
+  // Настраиваем кнопку
+  $('#tut-next-btn').textContent = (tutIndex === TUTORIAL_STEPS.length - 1) ? 'Завершить' : 'Далее';
+}
+
+function endTutorial() {
+  $('#tutorial-overlay').style.display = 'none';
+  state.tutorialDone = true;
+  saveState();
+}
+
+$('#tut-next-btn').addEventListener('click', () => {
+  tutIndex++;
+  showTutorialStep();
+});
+/* ========================================================= */
 
 function fmt(n){
   if (!isFinite(n)) return '∞';
@@ -315,7 +442,6 @@ function buySkin(skin) {
 }
 
 function renderStore() {
-  // Апгрейды
   let htmlU = '';
   UPGRADES.forEach(u => {
     const lvl = state.upgrades[u.id] || 0; const cost = getUpgCost(u);
@@ -323,7 +449,6 @@ function renderStore() {
   });
   $('#tab-upgrades').innerHTML = htmlU;
 
-  // Бизнесы
   let htmlB = '';
   BUSINESSES.forEach(b => {
     const lvl = state.businesses[b.id] || 0; const cost = getBusCost(b);
@@ -331,24 +456,16 @@ function renderStore() {
   });
   $('#tab-business').innerHTML = htmlB;
 
-  // Скины
   let htmlS = '<div class="skin-grid">';
   SKINS.forEach(s => {
     const isActive = state.currentSkin === s.id;
     const canBuy = state.cash >= s.cost;
-    let btnText = isActive ? 'ВЫБРАНО' : (s.cost === 0 ? 'ВЫБРАТЬ' : (canBuy ? `КУПИТЬ (${fmt(s.cost)})` : `НУЖНО ${fmt(s.cost)}`));
-    htmlS += `
-      <div class="skin-card ${isActive ? 'active' : ''}" onclick="${isActive ? '' : `buySkin({id:'${s.id}', cost:${s.cost}})`}">
-        <div class="skin-emoji">${s.id}</div>
-        <div style="font-size:10px; font-weight:bold; margin:5px 0;">${s.name}</div>
-        <div style="font-size:9px; color:${isActive ? 'var(--neon-yellow)' : (s.cost === 0 ? 'var(--neon-green)' : (canBuy ? 'var(--neon-cyan)' : '#777'))}">${btnText}</div>
-      </div>
-    `;
+    let btnText = isActive ? 'ВЫБРАНО' : (s.cost === 0 ? 'ВЫБРАТЬ' : (canBuy ? `КУПИТЬ` : `НУЖНО ${fmt(s.cost)}`));
+    htmlS += `<div class="skin-card ${isActive ? 'active' : ''}" onclick="${isActive ? '' : `buySkin({id:'${s.id}', cost:${s.cost}})`}"><div class="skin-emoji">${s.id}</div><div style="font-size:10px; font-weight:bold; margin:5px 0;">${s.name}</div><div style="font-size:9px; color:${isActive ? 'var(--neon-yellow)' : 'var(--neon-cyan)'}">${btnText}</div></div>`;
   });
   htmlS += '</div>';
   $('#tab-skins').innerHTML = htmlS;
 
-  // Ачивки
   let htmlA = '';
   ACHIEVEMENTS.forEach(a => {
     const un = state.achievements[a.id];
@@ -365,15 +482,6 @@ function checkAchievements() {
     }
   });
   if(changed) renderStore();
-}
-
-function doPrestige() {
-  const total = state.totalCash;
-  if (total < 1e6) return;
-  const gain = Math.floor(Math.pow(total / 1e6, 0.6));
-  state.respect += gain; state.prestigeCount++;
-  state.cash = 0; state.totalCash = 0; state.upgrades = {}; state.businesses = {};
-  renderStore(); updateUI(); saveState();
 }
 
 let lastFrame = performance.now();
@@ -399,45 +507,11 @@ function updateUI() {
   elComboFill.style.width = Math.min(100, (state.combo / 100) * 100) + '%';
   elRespect.textContent = fmt(state.respect);
   
-  const gain = state.totalCash < 1e6 ? 0 : Math.floor(Math.pow(state.totalCash / 1e6, 0.6));
-  $('#prestige-gain').textContent = fmt(gain);
-  $('#prestige-btn').disabled = gain <= 0;
-  
   uiTick++;
   if(uiTick % 20 === 0) { renderStore(); checkAchievements(); saveState(); }
 }
 
 function saveState() { localStorage.setItem(SAVE_KEY, JSON.stringify(state)); }
-
-/* СОХРАНЕНИЕ В ФАЙЛ */
-$('#btn-save-game').addEventListener('click', () => {
-  const dataStr = "data:text/json;charset=utf-8," + encodeURIComponent(JSON.stringify(state));
-  const dlAnchorElem = document.createElement('a');
-  dlAnchorElem.setAttribute("href", dataStr);
-  dlAnchorElem.setAttribute("download", "gta_clicker_save.json");
-  dlAnchorElem.click();
-});
-
-/* ЗАГРУЗКА ИЗ ФАЙЛА */
-$('#btn-load-game').addEventListener('click', () => { $('#file-input').click(); });
-$('#file-input').addEventListener('change', (event) => {
-  const file = event.target.files[0];
-  if (!file) return;
-  const reader = new FileReader();
-  reader.onload = (e) => {
-    try {
-      const loadedState = JSON.parse(e.target.result);
-      if(loadedState.cash !== undefined) {
-        state = loadedState;
-        if(!state.currentSkin) state.currentSkin = '🌴';
-        elClickTarget.textContent = state.currentSkin;
-        saveState(); renderStore(); updateUI();
-        alert('Прогресс успешно загружен!');
-      }
-    } catch(err) { alert('Ошибка при загрузке файла!'); }
-  };
-  reader.readAsText(file);
-});
 
 /* ИНТЕРФЕЙС */
 elStage.addEventListener('mousedown', handleClick);
@@ -452,18 +526,20 @@ $$('.tab').forEach(tab => {
   });
 });
 
-// Меню и панели
-$('#btn-start').addEventListener('click', () => { $('#main-menu').style.display = 'none'; $('#game-ui').style.display = 'flex'; });
+$('#btn-start').addEventListener('click', () => { 
+  $('#main-menu').style.display = 'none'; 
+  $('#game-ui').style.display = 'flex'; 
+  // Если туториал не пройден - запускаем его
+  if(!state.tutorialDone) startTutorial();
+});
+
 $('#btn-menu').addEventListener('click', () => { $('#main-menu').style.display = 'flex'; $('#game-ui').style.display = 'none'; });
+$('#btn-tutorial-menu').addEventListener('click', () => { $('#main-menu').style.display = 'none'; $('#game-ui').style.display = 'flex'; startTutorial(); });
 $('#btn-settings').addEventListener('click', () => { $('#settings-panel').style.display = 'flex'; });
 $('#btn-close-settings').addEventListener('click', () => { $('#settings-panel').style.display = 'none'; });
-$('#btn-about').addEventListener('click', () => { $('#about-panel').style.display = 'flex'; });
-$('#btn-close-about').addEventListener('click', () => { $('#about-panel').style.display = 'none'; });
 
-// Профиль
 const openProfile = () => { $('#input-nick').value = state.profile.nickname; $('#profile-modal').style.display = 'flex'; };
 $('#btn-profile-menu').addEventListener('click', openProfile);
-$('#profile-btn-game').addEventListener('click', openProfile);
 $('#close-modal').addEventListener('click', () => { $('#profile-modal').style.display = 'none'; });
 $('#save-profile').addEventListener('click', () => {
   state.profile.nickname = $('#input-nick').value || 'Игрок';
@@ -472,13 +548,12 @@ $('#save-profile').addEventListener('click', () => {
 });
 
 $('#btn-reset').addEventListener('click', () => { if(confirm('Удалить прогресс?')) { localStorage.removeItem(SAVE_KEY); location.reload(); } });
-$('#prestige-btn').addEventListener('click', doPrestige);
 
 // Инициализация
 elClickTarget.textContent = state.currentSkin || '🌴';
 renderStore();
 updateUI();
 requestAnimationFrame(gameLoop);
-  </script>
+</script>
 </body>
 </html>
