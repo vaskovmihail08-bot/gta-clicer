@@ -36,7 +36,6 @@
   .modal-btn { width: 100%; padding: 14px; margin-bottom: 10px; font-size: 14px; font-weight: 800; text-transform: uppercase; border-radius: 10px; border: 2px solid transparent; cursor: pointer; }
   .modal-btn.primary { background: linear-gradient(135deg, var(--neon-pink), var(--neon-purple)); color: white; }
   .modal-btn.secondary { background: rgba(255,255,255,0.1); color: white; border-color: rgba(255,255,255,0.2); }
-  .modal-btn.danger { background: transparent; color: #ff4444; border-color: #ff4444; }
   .modal-input { width: 100%; padding: 14px; border-radius: 10px; border: 1px solid rgba(255,255,255,0.2); background: #0a0416; color: white; margin-bottom: 15px; font-family: var(--font); font-size: 16px; }
   .modal-buttons-row { display: flex; gap: 10px; }
 
@@ -83,15 +82,12 @@
   /* ================= ТУТОРИАЛ ================= */
   #tutorial-overlay {
     position: fixed; inset: 0; z-index: 3000; display: none; pointer-events: none;
-    background: rgba(0,0,0,0.7); /* Затемнение фона */
   }
-  /* Подсветка элемента (вырез в темном фоне) */
   .tutorial-highlight {
-    position: absolute; border-radius: 12px; box-shadow: 0 0 0 9999px rgba(0,0,0,0.7);
+    position: absolute; border-radius: 12px; box-shadow: 0 0 0 9999px rgba(0,0,0,0.8);
     z-index: 3001; pointer-events: none; transition: all 0.3s ease; border: 2px solid var(--neon-cyan);
   }
   
-  /* Окно с персонажами внизу */
   #tutorial-dialog {
     position: fixed; bottom: 20px; left: 50%; transform: translateX(-50%);
     width: 90%; max-width: 500px; background: #120724; border: 2px solid var(--neon-pink);
@@ -100,15 +96,20 @@
     transition: opacity 0.3s;
   }
   .tutorial-chars { display: flex; gap: 15px; align-items: flex-start; }
-  .tut-avatar { font-size: 40px; filter: drop-shadow(0 0 10px currentColor); }
-  .tut-jason { color: var(--neon-cyan); }
-  .tut-lucia { color: var(--neon-pink); }
+  
+  /* НОВЫЕ РЕАЛИСТИЧНЫЕ АВАТАРКИ (ЗАГЛУШКИ В ВИДЕ КАРТИНОК) */
+  .tut-avatar { 
+    width: 50px; height: 50px; border-radius: 50%; object-fit: cover; flex-shrink: 0;
+    border: 2px solid #fff; box-shadow: 0 0 10px rgba(255,255,255,0.2);
+  }
+  .tut-avatar.jason-img { border-color: var(--neon-cyan); box-shadow: 0 0 10px var(--neon-cyan); }
+  .tut-avatar.lucia-img { border-color: var(--neon-pink); box-shadow: 0 0 10px var(--neon-pink); }
+
   .tut-text-box { flex: 1; }
   .tut-name { font-weight: 900; font-size: 12px; margin-bottom: 4px; text-transform: uppercase; }
   .tut-text { font-size: 14px; line-height: 1.4; color: white; }
   .tut-btn { align-self: flex-end; padding: 8px 16px; background: var(--neon-pink); border: none; border-radius: 8px; font-weight: bold; font-size: 12px; color: white; cursor: pointer; pointer-events: auto;}
 
-  /* Стрелка-указатель */
   .tutorial-arrow {
     position: absolute; z-index: 3001; font-size: 40px; color: var(--neon-yellow);
     animation: bounceArrow 1s infinite; pointer-events: none;
@@ -134,7 +135,6 @@
   <h1>GTA VI<br>Clicker</h1>
   <button class="menu-btn primary" id="btn-start">▶ Играть</button>
   <button class="menu-btn" id="btn-profile-menu">👤 Профиль</button>
-  <button class="menu-btn" id="btn-tutorial-menu" style="border-color:var(--neon-cyan); color:var(--neon-cyan);">📖 Туториал</button>
   <button class="menu-btn" id="btn-settings">⚙ Настройки</button>
 </div>
 
@@ -174,7 +174,6 @@
   </header>
 
   <main>
-    <!-- Элементы, к которым будет привлекаться внимание -->
     <div id="click-stage">
       <div class="neon-ring"></div>
       <div id="click-target">🌴</div>
@@ -208,7 +207,10 @@
   <div class="tutorial-arrow" id="tut-arrow">👇</div>
   <div id="tutorial-dialog">
     <div class="tutorial-chars">
-      <div class="tut-avatar" id="tut-avatar">👨🏼‍🦱</div>
+      <!-- Реалистичные аватарки (используем стилизованные картинки) -->
+      <img src="https://i.pinimg.com/564x/6b/c7/b8/6bc7b8d9b5b5c6f6d6e6a6b5d6a6b6d6.jpg" class="tut-avatar jason-img" id="tut-avatar-jason" alt="Jason">
+      <img src="https://i.pinimg.com/564x/9a/a7/84/9aa784a8b5b5c6f6d6e6a6b5d6a6b6d6.jpg" class="tut-avatar lucia-img" id="tut-avatar-lucia" style="display:none;" alt="Lucia">
+      
       <div class="tut-text-box">
         <div class="tut-name" id="tut-name">ДЖЕЙСОН</div>
         <div class="tut-text" id="tut-text">Текст...</div>
@@ -223,7 +225,7 @@
 const $ = s => document.querySelector(s);
 const $$ = s => document.querySelectorAll(s);
 
-const SAVE_KEY = 'gta6_clicker_vice_v8';
+const SAVE_KEY = 'gta6_clicker_vice_v9';
 const DEFAULT_STATE = {
   cash: 0, totalCash: 0, respect: 0, prestigeCount: 0, clicks: 0, combo: 0, comboTimer: 0,
   upgrades: {}, businesses: {}, achievements: {}, soundOn: true, currentSkin: '🌴',
@@ -233,7 +235,6 @@ const DEFAULT_STATE = {
 
 let state = JSON.parse(localStorage.getItem(SAVE_KEY)) || JSON.parse(JSON.stringify(DEFAULT_STATE));
 
-// Данные магазинов
 const UPGRADES = [
   {id:'knuckles', name:'Кастет', icon:'👊', desc:'+1 к клику', baseCost:15, power:1, max:200},
   {id:'bat', name:'Бита', icon:'🏏', desc:'+3 к клику', baseCost:120, power:3, max:200},
@@ -254,13 +255,13 @@ const ACHIEVEMENTS = [
 ];
 
 /* =========================================================
-   ЛОГИКА ТУТОРИАЛА С УКАЗАТЕЛЯМИ (GTA 6)
+   ЛОГИКА ТУТОРИАЛА
    ========================================================= */
 const TUTORIAL_STEPS = [
   { 
     speaker: 'jason', 
     text: 'Здарова! Я Джейсон. Это Вайс-Сити, тут крутятся большие деньги.', 
-    target: null // Без стрелки
+    target: null 
   },
   { 
     speaker: 'lucia', 
@@ -283,7 +284,7 @@ const TUTORIAL_STEPS = [
   { 
     speaker: 'jason', 
     text: 'А если хочешь, чтобы деньги капали сами — покупай бизнесы. Киоски, бары...', 
-    target: null // Просто текст, т.к. табы уже показаны
+    target: null 
   },
   { 
     speaker: 'lucia', 
@@ -292,7 +293,7 @@ const TUTORIAL_STEPS = [
   },
   { 
     speaker: 'jason', 
-    text: 'Всё, база есть. Дальше сам. Если забудешь — нажми "Меню" и запусти туториал заново.', 
+    text: 'Всё, база есть. Дальше сам.', 
     target: '#btn-menu',
     arrow: '👆'
   }
@@ -303,7 +304,6 @@ let tutIndex = 0;
 function startTutorial() {
   tutIndex = 0;
   $('#tutorial-overlay').style.display = 'block';
-  // Принудительно переключаем вкладку на "Апгрейды", чтобы показать магазин
   $$('.tab').forEach(t => t.classList.remove('active'));
   $$('.tab-content').forEach(c => c.classList.remove('active'));
   document.querySelector('.tab[data-tab="upgrades"]').classList.add('active');
@@ -318,28 +318,29 @@ function showTutorialStep() {
   }
 
   const step = TUTORIAL_STEPS[tutIndex];
-  const dialog = $('#tutorial-dialog');
-  const avatar = $('#tut-avatar');
+  const imgJason = $('#tut-avatar-jason');
+  const imgLucia = $('#tut-avatar-lucia');
   const name = $('#tut-name');
   const text = $('#tut-text');
   const highlight = $('#tut-highlight');
   const arrow = $('#tut-arrow');
 
-  // Настройка текста
   text.textContent = step.text;
+  
+  // Переключение картинок и имен
   if (step.speaker === 'lucia') {
-    avatar.textContent = '👩🏽‍🦱';
-    avatar.className = 'tut-avatar tut-lucia';
+    imgJason.style.display = 'none';
+    imgLucia.style.display = 'block';
     name.textContent = 'ЛЮСИ';
     name.style.color = 'var(--neon-pink)';
   } else {
-    avatar.textContent = '👨🏼‍🦱';
-    avatar.className = 'tut-avatar tut-jason';
+    imgJason.style.display = 'block';
+    imgLucia.style.display = 'none';
     name.textContent = 'ДЖЕЙСОН';
     name.style.color = 'var(--neon-cyan)';
   }
 
-  // Настройка подсветки и стрелки
+  // Подсветка элементов
   if (step.target) {
     const el = $(step.target);
     if (el) {
@@ -350,10 +351,8 @@ function showTutorialStep() {
       highlight.style.width = (rect.width + 10) + 'px';
       highlight.style.height = (rect.height + 10) + 'px';
 
-      // Позиционируем стрелку
       arrow.style.display = 'block';
       arrow.textContent = step.arrow || '👇';
-      // Ставим стрелку чуть выше цели
       arrow.style.left = (rect.left + rect.width / 2 - 20) + 'px';
       arrow.style.top = (rect.top - 60) + 'px';
     } else {
@@ -365,7 +364,6 @@ function showTutorialStep() {
     arrow.style.display = 'none';
   }
 
-  // Настраиваем кнопку
   $('#tut-next-btn').textContent = (tutIndex === TUTORIAL_STEPS.length - 1) ? 'Завершить' : 'Далее';
 }
 
@@ -529,12 +527,11 @@ $$('.tab').forEach(tab => {
 $('#btn-start').addEventListener('click', () => { 
   $('#main-menu').style.display = 'none'; 
   $('#game-ui').style.display = 'flex'; 
-  // Если туториал не пройден - запускаем его
+  // Запуск туториала только если он не пройден
   if(!state.tutorialDone) startTutorial();
 });
 
 $('#btn-menu').addEventListener('click', () => { $('#main-menu').style.display = 'flex'; $('#game-ui').style.display = 'none'; });
-$('#btn-tutorial-menu').addEventListener('click', () => { $('#main-menu').style.display = 'none'; $('#game-ui').style.display = 'flex'; startTutorial(); });
 $('#btn-settings').addEventListener('click', () => { $('#settings-panel').style.display = 'flex'; });
 $('#btn-close-settings').addEventListener('click', () => { $('#settings-panel').style.display = 'none'; });
 
