@@ -480,5 +480,25 @@ renderStore();
 updateUI();
 requestAnimationFrame(gameLoop);
 </script>
+  // ==========================================
+// СИСТЕМА АВТООБНОВЛЕНИЯ
+// ==========================================
+const CURRENT_VERSION = "1.0"; // Меняй эту цифру, когда захочешь обновить игру
+const GITHUB_VERSION_URL = "https://raw.githubusercontent.com/vaskovmihail08-bot/gta-clicer/main/version.txt";
+
+async function checkForUpdates() {
+  try {
+    const response = await fetch(GITHUB_VERSION_URL + "?t=" + Date.now());
+    if (!response.ok) return;
+    const text = await response.text();
+    const latestVersion = text.trim();
+    
+    if (latestVersion && latestVersion !== CURRENT_VERSION) {
+      document.getElementById('update-modal').style.display = 'flex';
+    }
+  } catch (e) { console.log("Нет сети для проверки обновлений"); }
+}
+setTimeout(checkForUpdates, 1500);
+// ==========================================
 </body>
 </html>
